@@ -1,0 +1,315 @@
+/* ============================================================
+   PRODUCT PAGE — product.css
+   ============================================================ */
+
+/* Nav is always opaque on product pages — no hero video beneath it */
+.nav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ============================================================
+   PRODUCT HERO (PDP)
+   ============================================================ */
+
+.pdp {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 80px; /* nav height */
+}
+
+.pdp__gallery {
+  position: sticky;
+  top: 80px;
+  height: calc(100svh - 80px);
+  background: #f5f3f0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdp__img-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.pdp__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3rem;
+}
+
+.pdp__info {
+  padding: clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pdp__info .label {
+  margin-bottom: 1.25rem;
+}
+
+.pdp__name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.pdp__price {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-muted);
+  margin-bottom: 2rem;
+}
+
+.pdp__desc {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--color-muted);
+  max-width: 42ch;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Size selector */
+.pdp__sizes {
+  margin-bottom: 2rem;
+}
+
+.pdp__sizes-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.875rem;
+}
+
+.pdp__size-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pdp__size {
+  width: 52px;
+  height: 52px;
+  background: none;
+  border: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--speed) var(--ease), color var(--speed) var(--ease), background var(--speed) var(--ease);
+}
+
+.pdp__size:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+.pdp__size--active {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* Out of stock — diagonal stripe + transparent */
+.pdp__size--oos {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pdp__size--oos::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.18) 4px,
+    rgba(0, 0, 0, 0.18) 5px
+  );
+}
+
+/* Stock status next to price */
+.pdp__stock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-left: 1rem;
+}
+
+.pdp__stock-status::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.pdp__stock-status--green  { color: #22c55e; }
+.pdp__stock-status--orange { color: #f97316; }
+.pdp__stock-status--red    { color: #ef4444; }
+
+/* Shopify Buy Button wrapper */
+.pdp__shopify-wrap {
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pdp__shopify-wrap > div,
+.pdp__shopify-wrap iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Back link */
+.pdp__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color var(--speed) var(--ease);
+}
+
+.pdp__back:hover {
+  color: var(--color-text);
+}
+
+/* ============================================================
+   TICKET DETAIL SECTION
+   ============================================================ */
+
+.ticket {
+  border-top: 1px solid var(--color-border);
+  padding: clamp(5rem, 9vw, 9rem) var(--gutter);
+}
+
+.ticket__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: center;
+}
+
+.ticket__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  margin-bottom: 2rem;
+}
+
+.ticket__body {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--color-muted);
+  max-width: 44ch;
+  margin-bottom: 1.25rem;
+}
+
+.ticket__body em {
+  font-style: italic;
+  color: var(--color-text);
+}
+
+/* Spec table */
+.ticket__specs {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.ticket__spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--color-border);
+  gap: 1rem;
+}
+
+.ticket__spec-key {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.ticket__spec-val {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--color-text);
+  text-align: right;
+}
+
+/* Label image */
+.ticket__img-wrap {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.ticket__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+
+.ticket__img-wrap:hover img {
+  transform: scale(1.03);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .pdp {
+    grid-template-columns: 1fr;
+    padding-top: 70px;
+  }
+
+  .pdp__gallery {
+    position: relative;
+    top: 0;
+    height: 60svh;
+  }
+
+  .ticket__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket__img-wrap {
+    order: -1;
+  }
+}

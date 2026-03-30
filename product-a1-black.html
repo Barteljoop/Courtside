@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A1 T-Shirt Black — Courtside Front-Row Streetwear</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="product.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__left">
+      <a href="index.html" class="nav__link">Shop</a>
+      <a href="index.html#story" class="nav__link">Story</a>
+    </div>
+    <a href="index.html" class="nav__logo">
+      <img src="images/LogoCourtside.png" alt="Courtside Front-Row Streetwear" class="nav__logo-img">
+    </a>
+    <div class="nav__right">
+      <a href="#" class="nav__link">Lookbook</a>
+      <a href="#" class="nav__link nav__link--cart">Bag (0)</a>
+    </div>
+  </nav>
+
+  <!-- PRODUCT HERO -->
+  <section class="pdp">
+    <div class="pdp__gallery">
+      <div class="pdp__img-wrap pdp__img-wrap--main">
+        <img src="images/Producten/Zwart shirt/ZwartShirtCourtsideWebshop.jpg" alt="A1 T-Shirt Black">
+      </div>
+    </div>
+
+    <div class="pdp__info">
+      <p class="label">First Drop — SS26</p>
+      <h1 class="pdp__name">A1 T-Shirt<br>Black</h1>
+      <p class="pdp__price">€69<span class="pdp__stock-status" id="stockStatus"></span></p>
+
+      <p class="pdp__desc">
+        Heavyweight oversized tee in a deep washed black. Screen-printed COURTSIDE. logo on the chest. Finished with the signature Front-Row Ticket label — your proof of access.
+      </p>
+
+      <div class="pdp__sizes">
+        <p class="pdp__sizes-label">Select size</p>
+        <div class="pdp__size-grid">
+          <button class="pdp__size" data-size="XS">XS</button>
+          <button class="pdp__size" data-size="S">S</button>
+          <button class="pdp__size" data-size="M">M</button>
+          <button class="pdp__size" data-size="L">L</button>
+          <button class="pdp__size" data-size="XL">XL</button>
+          <button class="pdp__size" data-size="XXL">XXL</button>
+        </div>
+      </div>
+
+      <div class="pdp__shopify-wrap">
+        <div id='product-component-1774535488908'></div>
+      </div>
+      <script type="text/javascript">
+      (function () {
+        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        if (window.ShopifyBuy) {
+          if (window.ShopifyBuy.UI) { ShopifyBuyInit(); } else { loadScript(); }
+        } else { loadScript(); }
+        function loadScript() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = scriptURL;
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+          script.onload = ShopifyBuyInit;
+        }
+
+        var shopifyComponent = null;
+        var variantMap = {};
+
+        var statusEl = document.getElementById('stockStatus');
+
+        function setStatus(available) {
+          if (!statusEl) return;
+          statusEl.className = 'pdp__stock-status';
+          if (available === null) { statusEl.textContent = ''; return; }
+          if (available) {
+            statusEl.classList.add('pdp__stock-status--green');
+            statusEl.textContent = 'Available';
+          } else {
+            statusEl.classList.add('pdp__stock-status--red');
+            statusEl.textContent = 'Out of stock';
+          }
+        }
+
+        function initSizeGrid() {
+          var firstAvailable = null;
+          document.querySelectorAll('.pdp__size').forEach(function(btn) {
+            var info = variantMap[btn.dataset.size];
+            if (!info) return;
+            if (!info.available) {
+              btn.classList.add('pdp__size--oos');
+            } else if (!firstAvailable) {
+              firstAvailable = btn;
+            }
+          });
+          if (firstAvailable) {
+            firstAvailable.classList.add('pdp__size--active');
+            setStatus(true);
+            var info = variantMap[firstAvailable.dataset.size];
+            if (info && shopifyComponent) shopifyComponent.updateConfig({ selectedVariantId: info.id });
+          } else {
+            setStatus(false);
+          }
+        }
+
+        document.querySelectorAll('.pdp__size').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            if (btn.classList.contains('pdp__size--oos')) return;
+            document.querySelectorAll('.pdp__size').forEach(function(b) { b.classList.remove('pdp__size--active'); });
+            btn.classList.add('pdp__size--active');
+            var info = variantMap[btn.dataset.size];
+            if (info) {
+              setStatus(info.available);
+              if (shopifyComponent) shopifyComponent.updateConfig({ selectedVariantId: info.id });
+            }
+          });
+        });
+
+        function ShopifyBuyInit() {
+          var client = ShopifyBuy.buildClient({
+            domain: 'civhe1-43.myshopify.com',
+            storefrontAccessToken: 'bfaa97599ec7143c9f5205caab6a7bba',
+          });
+
+          client.product.fetch('gid://shopify/Product/10919608451339').then(function(product) {
+            if (!product) return;
+            product.variants.forEach(function(v) {
+              var sizeKey = v.title;
+              if (v.selectedOptions) {
+                v.selectedOptions.forEach(function(opt) {
+                  if (opt.name.toLowerCase() === 'size') sizeKey = opt.value;
+                });
+              }
+              var numId = String(v.id).indexOf('/') > -1 ? v.id.split('/').pop() : String(v.id);
+              variantMap[sizeKey] = { id: numId, available: !!(v.available || v.availableForSale) };
+            });
+            initSizeGrid();
+          });
+
+          ShopifyBuy.UI.onReady(client).then(function (ui) {
+            shopifyComponent = ui.createComponent('product', {
+              id: '10919608451339',
+              node: document.getElementById('product-component-1774535488908'),
+              moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+              options: {
+                "product": {
+                  "styles": {
+                    "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } },
+                    "button": {
+                      "font-family": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+                      "font-size": "0.75rem", "font-weight": "500",
+                      "letter-spacing": "0.15em", "text-transform": "uppercase",
+                      "padding-top": "1.1rem", "padding-bottom": "1.1rem",
+                      "background-color": "#0d0d0d", "color": "#ffffff", "border-radius": "0",
+                      ":hover": { "background-color": "#333333" },
+                      ":focus": { "background-color": "#0d0d0d" }
+                    }
+                  },
+                  "contents": { "img": false, "imgWithCarousel": false, "title": false, "price": false, "description": false, "options": false, "button": true },
+                  "text": { "button": "Add to Bag" }
+                },
+                "cart": {
+                  "styles": {
+                    "button": { "background-color": "#0d0d0d", "border-radius": "0", "font-family": "\"Helvetica Neue\", Helvetica, Arial, sans-serif", "font-size": "0.75rem", "font-weight": "500", "letter-spacing": "0.15em", "text-transform": "uppercase", ":hover": { "background-color": "#333333" } }
+                  },
+                  "text": { "total": "Subtotal", "button": "Checkout" }
+                },
+                "toggle": {
+                  "styles": {
+                    "toggle": { "background-color": "#0d0d0d", ":hover": { "background-color": "#333333" } },
+                    "count": { "color": "#ffffff" },
+                    "iconPath": { "fill": "#ffffff" }
+                  }
+                }
+              }
+            });
+          });
+        }
+      })();
+      </script>
+
+      <a href="index.html#products" class="pdp__back">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 5H13M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        Back to all products
+      </a>
+    </div>
+  </section>
+
+  <!-- TICKET DETAIL / SPEC -->
+  <section class="ticket">
+    <div class="ticket__inner">
+      <div class="ticket__content">
+        <p class="label">Crafted Detail</p>
+        <h2 class="ticket__heading">The Front-Row<br>Ticket</h2>
+        <p class="ticket__body">
+          Every piece from Courtside Front-Row Streetwear carries a woven ticket label — hand-sewn at the back hem. It reads: <em>This ticket makes you eligible for full access to your Front-Row Streetwear.</em>
+        </p>
+        <p class="ticket__body">
+          Not decoration. A statement. The A1 designation marks this piece as part of our founding drop — the first row, the first seat.
+        </p>
+        <div class="ticket__specs">
+          <div class="ticket__spec-row">
+            <span class="ticket__spec-key">Reference</span>
+            <span class="ticket__spec-val">A1</span>
+          </div>
+          <div class="ticket__spec-row">
+            <span class="ticket__spec-key">Material</span>
+            <span class="ticket__spec-val">240gsm Single Jersey Knit</span>
+          </div>
+          <div class="ticket__spec-row">
+            <span class="ticket__spec-key">Fit</span>
+            <span class="ticket__spec-val">Oversized</span>
+          </div>
+          <div class="ticket__spec-row">
+            <span class="ticket__spec-key">Colour</span>
+            <span class="ticket__spec-val">Washed Black</span>
+          </div>
+          <div class="ticket__spec-row">
+            <span class="ticket__spec-key">Label</span>
+            <span class="ticket__spec-val">Woven, back hem</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ticket__img-wrap">
+        <img src="images/Producten/Zwart shirt/ZwartShirtLabel.jpg" alt="Front-Row Ticket label detail">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="images/LogoCourtside.png" alt="Courtside Front-Row Streetwear" class="footer__logo-img">
+        <p class="footer__tagline">Front Row. Every Season.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <p class="footer__col-title">Shop</p>
+          <a href="#">All Products</a>
+          <a href="#">Hoodies</a>
+          <a href="#">Tees</a>
+          <a href="#">Bottoms</a>
+          <a href="#">Accessories</a>
+        </div>
+        <div class="footer__col">
+          <p class="footer__col-title">Info</p>
+          <a href="#">Our Story</a>
+          <a href="#">Lookbook</a>
+          <a href="#">Shipping & Returns</a>
+          <a href="#">Size Guide</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer__col">
+          <p class="footer__col-title">Follow</p>
+          <a href="#">Instagram</a>
+          <a href="#">TikTok</a>
+          <a href="#">Pinterest</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2026 Courtside Front-Row Streetwear. All rights reserved.</p>
+      <div class="footer__legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="product.js"></script>
+</body>
+</html>
