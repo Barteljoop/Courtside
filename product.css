@@ -172,17 +172,36 @@
 .pdp__stock-status--orange { color: #f97316; }
 .pdp__stock-status--red    { color: #ef4444; }
 
-/* Shopify Buy Button wrapper */
-.pdp__shopify-wrap {
+/* Add to Bag button */
+.pdp__atc {
+  display: block;
   width: 100%;
+  padding: 1.1rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
+  transition: background var(--speed) var(--ease);
 }
 
-.pdp__shopify-wrap > div,
-.pdp__shopify-wrap iframe {
-  width: 100% !important;
-  max-width: 100% !important;
+.pdp__atc:hover {
+  background: #333333;
+  color: var(--color-bg);
+}
+
+.pdp__atc--disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 /* Back link */
