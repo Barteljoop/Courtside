@@ -587,12 +587,11 @@ a {
 
 .products {
   padding: var(--section-gap) var(--gutter);
-  border-top: 1px solid var(--color-border);
 }
 
 .products__header {
   max-width: var(--max-width);
-  margin: 0 auto 3.5rem;
+  margin: 0 auto 3rem;
 }
 
 .products__heading {
@@ -600,6 +599,115 @@ a {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   line-height: 1;
   letter-spacing: 0.01em;
+}
+
+.products__subhead {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  opacity: 0.7;
+}
+
+/* ============================================================
+   EDITORIAL PRODUCT GRID
+   ============================================================ */
+
+.editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.editorial-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Media area — portrait image with crossfade */
+.editorial-card__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.editorial-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease;
+}
+
+/* Lifestyle photo: on top by default */
+.editorial-card__img--life {
+  z-index: 2;
+  opacity: 1;
+}
+
+/* Flatlay: underneath, always rendered */
+.editorial-card__img--flat {
+  z-index: 1;
+  opacity: 1;
+  object-fit: contain;
+  padding: 2rem;
+}
+
+/* On hover / tap-active: fade lifestyle out → flatlay shows */
+.editorial-card:hover .editorial-card__img--life,
+.editorial-card.is-tapped .editorial-card__img--life {
+  opacity: 0;
+}
+
+/* Info block below image */
+.editorial-card__info {
+  padding: 1.1rem 0 0;
+}
+
+.editorial-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.45rem;
+}
+
+.editorial-card__name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.editorial-card__price {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.editorial-card__shop {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.editorial-card:hover .editorial-card__shop,
+.editorial-card.is-tapped .editorial-card__shop {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .products__grid {
@@ -892,6 +1000,18 @@ a {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+
+  /* Editorial grid — stack vertically on mobile */
+  .editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* On touch: show Shop Now text always (no hover) */
+  .editorial-card__shop {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

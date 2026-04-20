@@ -144,17 +144,41 @@ window.addEventListener('scroll', () => {
 
 
 // ============================================================
+// EDITORIAL CARDS — touch tap to reveal flatlay
+// ============================================================
+
+(function () {
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  if (!isTouch) return;
+
+  document.querySelectorAll('.editorial-card').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (!card.classList.contains('is-tapped')) {
+        e.preventDefault();
+        // Deactivate any other open card
+        document.querySelectorAll('.editorial-card.is-tapped').forEach(function (c) {
+          c.classList.remove('is-tapped');
+        });
+        card.classList.add('is-tapped');
+      }
+      // Already tapped → let the link navigate naturally
+    });
+  });
+})();
+
+
+// ============================================================
 // SCROLL REVEAL
 // ============================================================
 
 const revealElements = document.querySelectorAll(
-  '.hero__content, .story__media, .story__content, .products__header, .product-card, .footer__brand, .footer__col'
+  '.hero__content, .story__media, .story__content, .products__header, .editorial-card, .footer__brand, .footer__col'
 );
 
 revealElements.forEach((el, i) => {
   el.classList.add('reveal');
-  if (el.classList.contains('product-card')) {
-    el.classList.add(`reveal-delay-${(i % 4) + 1}`);
+  if (el.classList.contains('editorial-card')) {
+    el.classList.add(`reveal-delay-${(i % 3) + 1}`);
   }
 });
 

@@ -172,6 +172,81 @@
 .pdp__stock-status--orange { color: #f97316; }
 .pdp__stock-status--red    { color: #ef4444; }
 
+/* Size guide accordion */
+.pdp__sizeguide {
+  border-top: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+}
+
+.pdp__sizeguide-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  transition: opacity var(--speed) var(--ease);
+}
+
+.pdp__sizeguide-toggle:hover {
+  opacity: 0.6;
+}
+
+.pdp__sizeguide-arrow {
+  transition: transform 0.35s var(--ease);
+  flex-shrink: 0;
+}
+
+.pdp__sizeguide-toggle[aria-expanded="true"] .pdp__sizeguide-arrow {
+  transform: rotate(180deg);
+}
+
+.pdp__sizeguide-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pdp__sizeguide-panel.is-open {
+  max-height: 1400px;
+}
+
+.pdp__sizeguide-section {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding: 1rem 0 0.6rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.pdp__sizeguide-section:first-child {
+  border-top: none;
+  padding-top: 0.5rem;
+}
+
+.pdp__sizeguide-diagram {
+  width: 100%;
+  display: block;
+  max-width: 340px;
+  margin: 0 auto 0.5rem;
+}
+
+.pdp__sizeguide-img {
+  width: 100%;
+  display: block;
+  padding-bottom: 1.5rem;
+}
+
 /* Add to Bag button */
 .pdp__atc {
   display: block;

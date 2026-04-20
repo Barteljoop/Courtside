@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courtside — Front Row Access</title>
+
+  <style>
+    @font-face {
+      font-family: 'BanqueGothique';
+      src: url('fonts/BanqueGothique.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'HelveticaNeue';
+      src: url('fonts/HelveticaNeueMedium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --color-bg: #ffffff;
+      --color-border: #e0e0e0;
+      --color-text: #0d0d0d;
+      --color-muted: #6b6b6b;
+      --font-display: 'BanqueGothique', sans-serif;
+      --font-body: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ── SCANLINE TEXTURE ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent, transparent 2px,
+        rgba(0,0,0,0.012) 2px, rgba(0,0,0,0.012) 4px
+      );
+    }
+
+    /* ── LOGO ── */
+    .logo-wrap {
+      position: fixed;
+      top: clamp(2rem, 5vw, 3.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+    .logo-wrap img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .page {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: clamp(9rem, 15vw, 12rem);
+      padding-bottom: 5rem;
+    }
+
+    .inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: min(520px, 90vw);
+      gap: 0;
+    }
+
+    /* ── TICKET ── */
+    .ticket-wrap {
+      margin-bottom: 3rem;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .ticket-img {
+      width: min(420px, 88vw);
+      display: block;
+      transform: rotate(-1.2deg);
+      transition: transform 0.6s var(--ease);
+      filter: drop-shadow(0 8px 32px rgba(0,0,0,0.10));
+    }
+    .ticket-img:hover { transform: rotate(0deg); }
+
+    /* ── COPY ── */
+    .copy-block {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    }
+    .copy-block.hidden {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+
+    .queue-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 0.92;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .queue-sub {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--color-muted);
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    /* ── EMAIL FORM ── */
+    .email-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+    }
+    .email-form.hidden {
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+    }
+
+    .email-row {
+      display: flex;
+      border: 1px solid var(--color-text);
+      overflow: hidden;
+    }
+
+    input[type="email"] {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--color-text);
+      letter-spacing: 0.08em;
+    }
+    input::placeholder {
+      color: var(--color-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .btn-primary {
+      padding: 0.875rem 1.75rem;
+      background: var(--color-text);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: background 0.35s var(--ease);
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #333; }
+
+    .error-msg {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #ef4444;
+      text-align: center;
+      height: 1rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .error-msg.visible { opacity: 1; }
+
+    .privacy-note {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .privacy-dot {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--color-border);
+      flex-shrink: 0;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events: none;
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+      position: fixed;
+      bottom: clamp(3rem, 8vw, 6rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      text-align: center;
+      width: min(520px, 90vw);
+      z-index: 50;
+    }
+    .success-block.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+
+    /* SVG check circle */
+    .check-circle {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    .check-bg {
+      fill: none;
+      stroke: #22c55e;
+      stroke-width: 2;
+      stroke-dasharray: 176;
+      stroke-dashoffset: 176;
+      transition: stroke-dashoffset 0.6s var(--ease);
+    }
+    .check-bg.drawn { stroke-dashoffset: 0; }
+
+    .check-mark {
+      fill: none;
+      stroke: #22c55e;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      transition: stroke-dashoffset 0.4s var(--ease) 0.5s;
+    }
+    .check-mark.drawn { stroke-dashoffset: 0; }
+
+    .success-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 0.92;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--color-text);
+    }
+
+    .success-sub {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    /* ── BOTTOM BAR ── */
+    .bottom-bar {
+      position: fixed;
+      bottom: clamp(1.25rem, 3vw, 2rem);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 50;
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    }
+    .bottom-bar.hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(8px);
+      pointer-events: none;
+    }
+
+    .label {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--color-border); }
+
+    /* ── FADE-UP ENTRY ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .inner { animation: fadeUp 0.7s var(--ease) both; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGO -->
+  <div class="logo-wrap">
+    <img src="assets/LogoCourtside.png" alt="Courtside" />
+  </div>
+
+  <!-- MAIN PAGE -->
+  <div class="page">
+    <div class="inner">
+
+      <!-- Ticket -->
+      <div class="ticket-wrap">
+        <img src="assets/TicketOfficieel.png" alt="Front-Row Ticket" class="ticket-img" id="ticket-img" />
+      </div>
+
+      <!-- Copy -->
+      <div class="copy-block" id="copy-block">
+        <h2 class="queue-headline">Claim<br>Your Seat.</h2>
+        <p class="queue-sub">Drop your email. You'll be placed Front-Row when the drop goes live.</p>
+      </div>
+
+      <!-- Email Form -->
+      <div class="email-form" id="email-form">
+        <div class="email-row" id="email-row">
+          <input type="email" id="email-input" placeholder="your@email.com" />
+          <button class="btn-primary" id="email-btn">Secure Seat</button>
+        </div>
+        <p class="error-msg" id="email-error">Enter a valid email address.</p>
+        <p class="privacy-note">
+          <span class="privacy-dot"></span>
+          No spam. One email when the drop goes live.
+          <span class="privacy-dot"></span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS BAR (replaces bottom bar) -->
+  <div class="success-block" id="success-block">
+    <svg class="check-circle" viewBox="0 0 56 56">
+      <circle class="check-bg" id="check-bg" cx="28" cy="28" r="26" transform="rotate(-90 28 28)" />
+      <path class="check-mark" id="check-mark" d="M17 28l8 8 14-14" />
+    </svg>
+    <span class="success-headline">You're Front-Row.</span>
+    <span class="success-sub">We'll be right with you when the drop lands.</span>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar" id="bottom-bar">
+    <span class="label">Courtside</span>
+    <div class="dot"></div>
+    <span class="label">Front-Row Streetwear</span>
+  </div>
+
+  <script>
+    function tryEmail() {
+      const val = document.getElementById('email-input').value.trim();
+      const err = document.getElementById('email-error');
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+
+      if (!emailOk) {
+        err.classList.add('visible');
+        const row = document.getElementById('email-row');
+        row.style.animation = 'none';
+        row.offsetHeight;
+        row.style.animation = 'shake 0.35s ease';
+        return;
+      }
+
+      err.classList.remove('visible');
+
+      // Fade out copy + form
+      document.getElementById('copy-block').classList.add('hidden');
+      document.getElementById('email-form').classList.add('hidden');
+
+      // Fade out bottom bar
+      document.getElementById('bottom-bar').classList.add('hidden');
+
+      // Straighten ticket
+      document.getElementById('ticket-img').style.transform = 'rotate(0deg)';
+      document.getElementById('ticket-img').style.transition = 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)';
+
+      // Show success after short delay
+      setTimeout(() => {
+        const block = document.getElementById('success-block');
+        block.classList.add('visible');
+
+        // Animate check circle
+        setTimeout(() => {
+          document.getElementById('check-bg').classList.add('drawn');
+          document.getElementById('check-mark').classList.add('drawn');
+        }, 100);
+      }, 400);
+    }
+
+    document.getElementById('email-btn').addEventListener('click', tryEmail);
+    document.getElementById('email-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') tryEmail();
+      document.getElementById('email-error').classList.remove('visible');
+    });
+  </script>
+
+</body>
+</html>
