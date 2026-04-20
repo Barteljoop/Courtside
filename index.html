@@ -84,28 +84,28 @@
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
       <span>Front-Row Streetwear</span>
-      <span>—</span>
+      <span>,</span>
     </div>
   </div>
 
   <!-- PRODUCTS -->
   <section class="products" id="products">
     <div class="products__header">
-      <p class="label">First Drop — SS26</p>
+      <p class="label">First Drop, SS26</p>
       <h2 class="products__heading">The Grand Opening</h2>
       <p class="products__subhead">240gsm heavyweight oversized tees. Limited quantities.</p>
     </div>
@@ -250,7 +250,12 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+  if (!sessionStorage.getItem('cfr-landing-admitted')) {
+    location.replace('landing.html');
+  }
+</script>
+<script src="script.js"></script>
   <script src="cart.js"></script>
 </body>
 </html>
