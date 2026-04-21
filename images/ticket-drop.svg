@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <!-- Ticket shape: 7 scalloped notches per side (radius 18, cut inward) -->
+    <!-- Gap between notches: 28.5px | Each notch: 36px | 8 gaps + 7 notches = 480px -->
+    <clipPath id="tc">
+      <path d="M0,0 L800,0
+               L800,28.5  A18,18 0 0,0 800,64.5
+               L800,93    A18,18 0 0,0 800,129
+               L800,157.5 A18,18 0 0,0 800,193.5
+               L800,222   A18,18 0 0,0 800,258
+               L800,286.5 A18,18 0 0,0 800,322.5
+               L800,351   A18,18 0 0,0 800,387
+               L800,415.5 A18,18 0 0,0 800,451.5
+               L800,480   L0,480
+               L0,451.5   A18,18 0 0,1 0,415.5
+               L0,387     A18,18 0 0,1 0,351
+               L0,322.5   A18,18 0 0,1 0,286.5
+               L0,258     A18,18 0 0,1 0,222
+               L0,193.5   A18,18 0 0,1 0,157.5
+               L0,129     A18,18 0 0,1 0,93
+               L0,64.5    A18,18 0 0,1 0,28.5 Z"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#tc)">
+
+    <!-- Background -->
+    <rect width="800" height="480" fill="#ece4cc"/>
+
+    <!-- Subtle grain overlay -->
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+      <feBlend in="SourceGraphic" in2="grey" mode="multiply" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <rect width="800" height="480" fill="#d8cdb4" opacity="0.18" filter="url(#grain)"/>
+
+    <!-- Orange dashed border -->
+    <rect x="18" y="14" width="764" height="452" rx="5" ry="5"
+          fill="none" stroke="#e8682a" stroke-width="2.5" stroke-dasharray="10,6.5"/>
+
+    <!-- ── COURT® logo — top left ── -->
+    <text x="44" y="78"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="44" fill="#151008" letter-spacing="1.5">COURT<tspan font-size="19" dy="-17" dx="2">®</tspan></text>
+    <text x="44" y="124"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="44" fill="#151008" letter-spacing="1.5">SIDE.</text>
+
+    <!-- ── A1 — top right ── -->
+    <text x="758" y="126"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="96" fill="#151008" text-anchor="end" letter-spacing="-2">A1</text>
+
+    <!-- ── Main headline — two big lines ── -->
+    <text x="400" y="232"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="104" fill="#151008"
+          text-anchor="middle"
+          textLength="660" lengthAdjust="spacingAndGlyphs">First Drop, SS26</text>
+
+    <!-- ── Subtext ── -->
+    <text x="400" y="318"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="22" fill="#151008"
+          text-anchor="middle" letter-spacing="2.2">240gsm heavyweight oversized tees.</text>
+
+    <text x="400" y="350"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="22" fill="#151008"
+          text-anchor="middle" letter-spacing="2.2">Limited quantities.</text>
+
+    <!-- ── Bottom tagline ── -->
+    <text x="400" y="456"
+          font-family="Impact, 'Arial Black', 'Franklin Gothic Heavy', sans-serif"
+          font-size="13.5" fill="#151008"
+          text-anchor="middle" letter-spacing="0.6">This ticket makes you eligible for full access to your front-row streetwear</text>
+
+  </g>
+</svg>

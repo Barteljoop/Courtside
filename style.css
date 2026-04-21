@@ -520,8 +520,27 @@ a {
    BRAND STORY
    ============================================================ */
 
+/* BANNER PLACEHOLDER */
+.banner-placeholder {
+  width: 100%;
+  height: clamp(200px, 30vw, 480px);
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-placeholder__label {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  user-select: none;
+}
+
 .story {
-  padding: var(--section-gap) var(--gutter);
+  padding: clamp(2rem, 4vw, 4rem) var(--gutter) var(--section-gap);
 }
 
 .story__inner {
@@ -586,24 +605,24 @@ a {
    ============================================================ */
 
 .products {
-  padding: var(--section-gap) var(--gutter);
+  padding: clamp(1.5rem, 3vw, 3rem) var(--gutter) clamp(1.5rem, 3vw, 3rem) clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .products__header {
   max-width: var(--max-width);
   margin: 0 auto 3rem;
+  text-align: left;
 }
 
 .products__heading {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1;
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 0.95;
   letter-spacing: 0.01em;
 }
 
 .products__subhead {
-  margin-top: 0.75rem;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-muted);
@@ -968,6 +987,19 @@ a {
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-48px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-left.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-left.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-left.reveal-delay-3 { transition-delay: 0.38s; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
@@ -979,6 +1011,15 @@ a {
 }
 
 @media (max-width: 768px) {
+  .products__header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .products__header-meta {
+    align-items: flex-start;
+    text-align: left;
+  }
+
   .nav__left .nav__link:not(.nav__link--cart) {
     display: none;
   }

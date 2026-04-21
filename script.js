@@ -172,7 +172,7 @@ window.addEventListener('scroll', () => {
 // ============================================================
 
 const revealElements = document.querySelectorAll(
-  '.hero__content, .story__media, .story__content, .products__header, .editorial-card, .footer__brand, .footer__col'
+  '.hero__content, .story__media, .story__content, .editorial-card, .footer__brand, .footer__col'
 );
 
 revealElements.forEach((el, i) => {
@@ -180,6 +180,13 @@ revealElements.forEach((el, i) => {
   if (el.classList.contains('editorial-card')) {
     el.classList.add(`reveal-delay-${(i % 3) + 1}`);
   }
+});
+
+// Products header — each line slides in from the left with a stagger
+document.querySelectorAll(
+  '.products__header .label, .products__heading, .products__subhead'
+).forEach((el, i) => {
+  el.classList.add('reveal-left', `reveal-delay-${i + 1}`);
 });
 
 const revealObserver = new IntersectionObserver((entries) => {
@@ -192,3 +199,5 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
 revealElements.forEach(el => revealObserver.observe(el));
+
+document.querySelectorAll('.reveal-left').forEach(el => revealObserver.observe(el));
