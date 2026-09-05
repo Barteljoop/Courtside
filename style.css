@@ -13,11 +13,11 @@
 
 :root {
   /* — Colors — */
-  --color-bg:        #ffffff;    /* main background */
+  --color-bg:        #2a1d18;    /* main background */
   --color-surface:   #f2f2f2;    /* card / section bg */
   --color-border:    #e0e0e0;    /* subtle borders */
-  --color-text:      #0d0d0d;    /* primary text */
-  --color-muted:     #0d0d0d;    /* secondary text */
+  --color-text:      #ffffff;    /* primary text */
+  --color-muted:     #ffffff;    /* secondary text */
   --color-accent:    #0d0d0d;    /* CTA / accent */
   --color-accent-fg: #ffffff;    /* text on accent bg */
 
@@ -386,12 +386,12 @@ a {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: #0d0d0d;
   transition: color var(--speed) var(--ease);
 }
 
 .nav__link:hover {
-  color: var(--color-text);
+  color: #555;
 }
 
 .nav__logo {
@@ -558,6 +558,13 @@ a {
   background: var(--color-surface);
 }
 
+.story__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .story__slideshow {
   position: relative;
 }
@@ -609,8 +616,7 @@ a {
 }
 
 .products__header {
-  max-width: var(--max-width);
-  margin: 0 auto 3rem;
+  margin: 0 0 3rem;
   text-align: left;
 }
 
@@ -811,8 +817,7 @@ a {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-text);
-  color: var(--color-text);
+  color: #0d0d0d;
   transform: translateY(100%);
   transition: transform var(--speed) var(--ease);
 }
