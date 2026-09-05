@@ -63,9 +63,11 @@
     /* VIDEO BACKGROUND */
     .bg-video {
       position: fixed;
-      inset: 0;
+      top: -5%;
+      left: 0;
       width: 100%;
-      height: 100%;
+      height: 110vh;
+      height: 110dvh;
       object-fit: cover;
       z-index: 0;
       pointer-events: none;
@@ -417,27 +419,9 @@
         height: 40px;
       }
 
-      /* Password field — top left, small */
+      /* Password field — hidden on phone, clean look */
       .pass-wrap {
-        top: 1rem;
-        left: 1rem;
-        right: auto;
-        transform: none;
-      }
-      .pass-input {
-        width: 90px;
-        font-size: 0.6rem;
-        padding: 0.35rem 0.55rem;
-      }
-      .pass-btn {
-        padding: 0.35rem 0.6rem;
-        font-size: 0.5rem;
-      }
-      .pass-error {
-        top: calc(100% + 4px);
-        right: auto;
-        left: 0;
-        transform: none;
+        display: none;
       }
 
       /* Center the ticket in the available space */
@@ -508,7 +492,7 @@
 <body>
 
   <!-- BACKGROUND VIDEO -->
-  <video class="bg-video" autoplay muted loop playsinline>
+  <video class="bg-video" id="bgVideo" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto">
     <source src="Courtside Landing Page/assets/CourtsideLandingspageVid1.0.mp4" type="video/mp4">
   </video>
   <div class="bg-overlay"></div>
@@ -586,6 +570,27 @@
     if (sessionStorage.getItem('cfr-landing-admitted')) {
       location.replace('index.html');
     }
+
+    // Force-start the background video (iOS Safari sometimes needs an explicit
+    // play() call + a user-gesture retry, even with autoplay/muted/playsinline set)
+    (function () {
+      var bgVideo = document.getElementById('bgVideo');
+      if (!bgVideo) return;
+      bgVideo.muted = true;
+      bgVideo.setAttribute('muted', '');
+
+      var tryPlay = function () {
+        var p = bgVideo.play();
+        if (p && p.catch) p.catch(function () {});
+      };
+      tryPlay();
+
+      ['touchstart', 'click', 'scroll'].forEach(function (evt) {
+        document.addEventListener(evt, function retry() {
+          if (bgVideo.paused) tryPlay();
+        }, { once: true, passive: true });
+      });
+    })();
 
     // Password bypass
     document.getElementById('passForm').addEventListener('submit', function (e) {
