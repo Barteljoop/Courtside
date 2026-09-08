@@ -437,6 +437,15 @@
         display: none;
       }
 
+      /* Phone: just fill the screen, no letterboxing — skip the
+         blurred duplicate entirely so only one video loads */
+      .bg-video {
+        object-fit: cover;
+      }
+      .bg-video-blur {
+        display: none;
+      }
+
       /* Center the ticket in the available space */
       .page {
         padding-top: 4rem;
@@ -505,9 +514,8 @@
 <body>
 
   <!-- BACKGROUND VIDEO -->
-  <video class="bg-video-blur" id="bgVideoBlur" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true">
-    <source src="Courtside Landing Page/assets/CourtsideLandingspageVid1.0.mp4" type="video/mp4">
-  </video>
+  <!-- Blurred duplicate: only loaded/played on larger screens (see script below) -->
+  <video class="bg-video-blur" id="bgVideoBlur" muted loop playsinline webkit-playsinline disablepictureinpicture preload="none" aria-hidden="true"></video>
   <video class="bg-video" id="bgVideo" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto">
     <source src="Courtside Landing Page/assets/CourtsideLandingspageVid1.0.mp4" type="video/mp4">
   </video>
@@ -590,10 +598,23 @@
     // Force-start the background videos (iOS Safari sometimes needs an explicit
     // play() call + a user-gesture retry, even with autoplay/muted/playsinline set)
     (function () {
-      var bgVideos = [
-        document.getElementById('bgVideo'),
-        document.getElementById('bgVideoBlur')
-      ].filter(Boolean);
+      var bgVideo = document.getElementById('bgVideo');
+      var bgVideoBlur = document.getElementById('bgVideoBlur');
+      var bgVideos = [bgVideo].filter(Boolean);
+
+      // The blurred duplicate is only useful on wider screens where the
+      // sharp video leaves letterbox bars. On phones it just wastes
+      // bandwidth, so skip loading it entirely there.
+      if (bgVideoBlur) {
+        if (window.matchMedia('(max-width: 480px)').matches) {
+          bgVideoBlur.remove();
+        } else {
+          bgVideoBlur.src = 'Courtside Landing Page/assets/CourtsideLandingspageVid1.0.mp4';
+          bgVideoBlur.load();
+          bgVideos.push(bgVideoBlur);
+        }
+      }
+
       if (!bgVideos.length) return;
       bgVideos.forEach(function (v) {
         v.muted = true;
