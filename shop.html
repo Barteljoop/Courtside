@@ -59,13 +59,9 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero__media">
-      <iframe
-        class="hero__yt-iframe"
-        src="https://www.youtube.com/embed/WEyp7YCbz9w?autoplay=1&mute=1&loop=1&playlist=WEyp7YCbz9w&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1"
-        allow="autoplay; encrypted-media"
-        frameborder="0"
-        title="Hero background"
-      ></iframe>
+      <video class="hero__video" id="heroVideo" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto">
+        <source src="images/Story/SpinningTableOfficieel.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero__cta-wrap">
       <a href="#products" class="btn btn--hero-cta">Shop Now</a>
@@ -113,7 +109,7 @@
 
       <!-- A1 T-Shirt Brown -->
       <article class="editorial-card">
-        <a href="product-a1-brown" class="editorial-card__link">
+        <a href="product-a1-brown.html" class="editorial-card__link">
           <div class="editorial-card__media">
             <img src="images/Producten/Bruin shirt/CourtsideShirtBruinWeb.png"
                  alt="A1 T-Shirt Brown — lifestyle"
@@ -134,7 +130,7 @@
 
       <!-- A1 T-Shirt Black -->
       <article class="editorial-card">
-        <a href="product-a1-black" class="editorial-card__link">
+        <a href="product-a1-black.html" class="editorial-card__link">
           <div class="editorial-card__media">
             <img src="images/Producten/Zwart shirt/ZwartShirtCourtsideWeb.png"
                  alt="A1 T-Shirt Black — lifestyle"
@@ -155,7 +151,7 @@
 
       <!-- A1 T-Shirt Matcha -->
       <article class="editorial-card">
-        <a href="product-a1-matcha" class="editorial-card__link">
+        <a href="product-a1-matcha.html" class="editorial-card__link">
           <div class="editorial-card__media">
             <img src="images/Producten/Groen shirt/GroenShirtCourtsideweb.png"
                  alt="A1 T-Shirt Matcha — lifestyle"
@@ -204,7 +200,7 @@
         <p class="story__body">
           This is how Courtside was born.
         </p>
-        <a href="story" class="btn btn--underline">Read the full story</a>
+        <a href="story.html" class="btn btn--underline">Read the full story</a>
       </div>
     </div>
   </section>
@@ -253,8 +249,8 @@
   </footer>
 
   <script>
-  if (!sessionStorage.getItem('cfr-landing-admitted')) {
-    location.replace('/');
+  if (!sessionStorage.getItem('csa_7f2')) {
+    location.replace('index.html');
   }
 </script>
 <script src="script.js"></script>

@@ -600,7 +600,7 @@
 
   <script>
     // If already admitted, skip straight to the shop
-    if (sessionStorage.getItem('cfr-landing-admitted')) {
+    if (sessionStorage.getItem('csa_7f2')) {
       location.replace('shop.html');
     }
 
@@ -658,19 +658,28 @@
     })();
 
     // Password bypass
+    function sha256Hex(str) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function (buf) {
+        return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+      });
+    }
+    var ACCESS_HASH = '660d1396cc54fdbf4fbe2a9457a3aad621039b4372151a6c32250c0cbf8295a';
+
     document.getElementById('passForm').addEventListener('submit', function (e) {
       e.preventDefault();
       var val = document.getElementById('passInput').value;
       var err = document.getElementById('passError');
-      if (val === 'Rabby') {
-        sessionStorage.setItem('cfr-landing-admitted', '1');
-        sessionStorage.setItem('cfr-admitted', '1'); // skip queue too
-        location.href = 'shop.html';
-      } else {
-        err.classList.add('visible');
-        document.getElementById('passInput').value = '';
-        setTimeout(function () { err.classList.remove('visible'); }, 2000);
-      }
+      sha256Hex(val).then(function (hash) {
+        if (hash === ACCESS_HASH) {
+          sessionStorage.setItem('csa_7f2', '1');
+          sessionStorage.setItem('csq_4d1', '1'); // skip queue too
+          location.href = 'shop.html';
+        } else {
+          err.classList.add('visible');
+          document.getElementById('passInput').value = '';
+          setTimeout(function () { err.classList.remove('visible'); }, 2000);
+        }
+      });
     });
 
     // Email submission

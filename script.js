@@ -20,7 +20,7 @@
   let revealShown = false;
 
   // Already admitted this session — skip queue entirely
-  if (sessionStorage.getItem('cfr-admitted')) {
+  if (sessionStorage.getItem('csq_4d1')) {
     queue.remove();
     return;
   }
@@ -30,8 +30,15 @@
   const passInput = document.getElementById('queuePassInput');
   const passError = document.getElementById('queuePassError');
 
+  function sha256Hex(str) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then((buf) =>
+      Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('')
+    );
+  }
+  const ACCESS_HASH = '660d1396cc54fdbf4fbe2a9457a3aad621039b4372151a6c32250c0cbf8295a';
+
   function admitNow() {
-    sessionStorage.setItem('cfr-admitted', '1');
+    sessionStorage.setItem('csq_4d1', '1');
     document.body.classList.remove('queue-active');
     queue.classList.add('queue--exit');
     setTimeout(() => queue.remove(), 950);
@@ -39,13 +46,15 @@
 
   passForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (passInput.value === 'Rabby') {
-      admitNow();
-    } else {
-      passError.classList.add('visible');
-      passInput.value = '';
-      setTimeout(() => passError.classList.remove('visible'), 2000);
-    }
+    sha256Hex(passInput.value).then((hash) => {
+      if (hash === ACCESS_HASH) {
+        admitNow();
+      } else {
+        passError.classList.add('visible');
+        passInput.value = '';
+        setTimeout(() => passError.classList.remove('visible'), 2000);
+      }
+    });
   });
 
   // Lock scroll while waiting
@@ -85,7 +94,7 @@
     // Time's up — show the SHOP NOW button
     if (remaining <= 0) {
       clearInterval(interval);
-      sessionStorage.setItem('cfr-admitted', '1');
+      sessionStorage.setItem('csq_4d1', '1');
       queueCta.classList.add('visible');
       queueCta.addEventListener('click', admitNow, { once: true });
     }
@@ -201,3 +210,41 @@ const revealObserver = new IntersectionObserver((entries) => {
 revealElements.forEach(el => revealObserver.observe(el));
 
 document.querySelectorAll('.reveal-left').forEach(el => revealObserver.observe(el));
+
+// ============================================================
+// HERO VIDEO — reliable autoplay on iOS Safari
+// ============================================================
+
+(function () {
+  const heroVideo = document.getElementById('heroVideo');
+  if (!heroVideo) return;
+
+  heroVideo.muted = true;
+  heroVideo.setAttribute('muted', '');
+
+  // Seamless loop — jump back just before the true end (and land just
+  // after 0) so any black lead-in/lead-out frame in the source never shows
+  heroVideo.addEventListener('timeupdate', () => {
+    if (heroVideo.duration && heroVideo.currentTime > heroVideo.duration - 0.2) {
+      heroVideo.currentTime = 0.05;
+    }
+  });
+
+  const tryPlay = () => {
+    const p = heroVideo.play();
+    if (p && p.catch) p.catch(() => {});
+  };
+  tryPlay();
+
+  ['touchstart', 'click', 'scroll'].forEach((evt) => {
+    document.addEventListener(evt, function retry() {
+      if (heroVideo.paused) tryPlay();
+    }, { once: true, passive: true });
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') tryPlay();
+  });
+  window.addEventListener('pageshow', tryPlay);
+  window.addEventListener('focus', tryPlay);
+})();
