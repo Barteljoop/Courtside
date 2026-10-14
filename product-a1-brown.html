@@ -15,10 +15,10 @@
   <!-- NAV -->
   <nav class="nav" id="nav">
     <div class="nav__left">
-      <a href="shop" class="nav__link">Shop</a>
-      <a href="shop#story" class="nav__link">Story</a>
+      <a href="shop.html" class="nav__link">Shop</a>
+      <a href="shop.html#story" class="nav__link">Story</a>
     </div>
-    <a href="shop" class="nav__logo">
+    <a href="shop.html" class="nav__logo">
       <img src="images/LogoCourtside.png" alt="Courtside Front-Row Streetwear" class="nav__logo-img">
     </a>
     <div class="nav__right">
@@ -30,9 +30,21 @@
   <!-- PRODUCT HERO -->
   <section class="pdp">
     <div class="pdp__gallery">
-      <div class="pdp__img-wrap pdp__img-wrap--main">
-        <img src="images/Producten/Bruin shirt/CourtsideWebshopProductBruin.png" alt="A1 T-Shirt Brown">
+      <div class="pdp__img-wrap pdp__img-wrap--main" id="pdpGallery">
+        <img src="images/Producten/Bruin shirt/ModelGBFront.png" alt="A1 T-Shirt Brown — on model" class="pdp__slide pdp__slide--active">
+        <img src="images/Producten/Bruin shirt/FrontRowTicketBruin.png" alt="A1 T-Shirt Brown — Front-Row Ticket label" class="pdp__slide">
+        <img src="images/Producten/Bruin shirt/CourtsideWebshopProductBruin.png" alt="A1 T-Shirt Brown" class="pdp__slide">
       </div>
+      <button class="pdp__gallery-arrow pdp__gallery-arrow--prev" id="pdpPrev" aria-label="Previous photo">
+        <svg viewBox="0 0 12 8" fill="none" aria-hidden="true">
+          <path d="M11 1.5L6 6.5 1 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" transform="rotate(90 6 4)"/>
+        </svg>
+      </button>
+      <button class="pdp__gallery-arrow pdp__gallery-arrow--next" id="pdpNext" aria-label="Next photo">
+        <svg viewBox="0 0 12 8" fill="none" aria-hidden="true">
+          <path d="M11 1.5L6 6.5 1 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-90 6 4)"/>
+        </svg>
+      </button>
     </div>
 
     <div class="pdp__info">
@@ -255,7 +267,7 @@
       })();
       </script>
 
-      <a href="shop#products" class="pdp__back">
+      <a href="shop.html#products" class="pdp__back">
         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 5H13M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.2"/>
         </svg>

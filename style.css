@@ -16,10 +16,10 @@
   --color-bg:        #2a1d18;    /* main background */
   --color-surface:   #f2f2f2;    /* card / section bg */
   --color-border:    #e0e0e0;    /* subtle borders */
-  --color-text:      #ffffff;    /* primary text */
-  --color-muted:     #ffffff;    /* secondary text */
+  --color-text:      #e0d6cb;    /* primary text */
+  --color-muted:     #e0d6cb;    /* secondary text */
   --color-accent:    #0d0d0d;    /* CTA / accent */
-  --color-accent-fg: #ffffff;    /* text on accent bg */
+  --color-accent-fg: #e0d6cb;    /* text on accent bg */
 
   /* — Typography — */
   --font-display:    'BanqueGothique', 'Bebas Neue', sans-serif;
@@ -213,7 +213,7 @@ body.queue-active {
   margin-top: clamp(2rem, 4vw, 3.5rem);
   padding: 1.1rem 3rem;
   background: #0d0d0d;
-  color: #ffffff;
+  color: #e0d6cb;
   border: none;
   font-family: var(--font-body);
   font-size: 0.72rem;
@@ -426,18 +426,12 @@ a {
   inset: 0;
 }
 
-/* YouTube iframe — covers hero like object-fit: cover */
-.hero__yt-iframe {
+.hero__video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  /* Portrait 9:16 video: fill width and let excess height overflow (cropped by .hero) */
+  inset: 0;
   width: 100%;
-  height: calc(100vw * 16 / 9);
-  min-height: 100%;
-  min-width: calc(100svh * 9 / 16);
-  transform: translate(-50%, -50%);
-  border: none;
+  height: 100%;
+  object-fit: cover;
   pointer-events: none;
   opacity: 0.6;
 }
@@ -467,20 +461,20 @@ a {
 .btn--hero-cta {
   display: inline-block;
   padding: 1.2rem 4rem;
-  background: #0d0d0d;
-  color: #ffffff;
+  background: #2a1d18;
+  color: #e0d6cb;
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  border: 1px solid #0d0d0d;
+  border: 1px solid #2a1d18;
   transition: background var(--speed) var(--ease), color var(--speed) var(--ease);
 }
 
 .btn--hero-cta:hover {
   background: transparent;
-  color: #0d0d0d;
+  color: #2a1d18;
 }
 
 /* ============================================================
@@ -723,7 +717,7 @@ a {
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #fff;
+  color: #e0d6cb;
   background: #000;
   text-align: center;
   padding: 0.7rem 1rem;
