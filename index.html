@@ -618,9 +618,22 @@
         if (window.matchMedia('(max-width: 480px)').matches) {
           bgVideoBlur.remove();
         } else {
-          bgVideoBlur.src = 'Courtside Landing Page/assets/CourtsideLandingspageVid1.0.mp4';
-          bgVideoBlur.load();
           bgVideos.push(bgVideoBlur);
+          // Don't start this second download in parallel with the main
+          // video — wait until the sharp video has enough data, so this
+          // one loads from the browser's HTTP cache instead of competing
+          // for bandwidth with it.
+          var startBlurLoad = function () {
+            bgVideoBlur.src = 'Courtside Landing Page/assets/CourtsideLandingspageVid1.0.mp4';
+            bgVideoBlur.load();
+            var p = bgVideoBlur.play();
+            if (p && p.catch) p.catch(function () {});
+          };
+          if (bgVideo.readyState >= 2) {
+            startBlurLoad();
+          } else {
+            bgVideo.addEventListener('loadeddata', startBlurLoad, { once: true });
+          }
         }
       }
 
