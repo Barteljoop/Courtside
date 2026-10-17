@@ -414,8 +414,12 @@ a {
 
 .hero {
   position: relative;
-  height: 100svh;
-  min-height: 600px;
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 1920 / 1280;
+  max-height: 82vh;
+  min-height: 420px;
+  margin: 0 auto;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -451,11 +455,22 @@ a {
 
 .hero__cta-wrap {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.75rem;
   padding: 0 var(--gutter) 2.5rem;
   position: relative;
   z-index: 3;
   width: 100%;
+}
+
+.hero__drop-label {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #e0d6cb;
 }
 
 .btn--hero-cta {
@@ -516,25 +531,68 @@ a {
 
 /* BANNER PLACEHOLDER */
 .banner-placeholder {
+  position: relative;
   width: 100%;
-  height: clamp(200px, 30vw, 480px);
+  height: clamp(320px, 34vw, 580px);
   background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-.banner-placeholder__label {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  letter-spacing: 0.3em;
-  color: rgba(255, 255, 255, 0.35);
-  text-transform: uppercase;
-  user-select: none;
+.banner-placeholder__logo {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2rem);
+  width: clamp(70px, 8vw, 120px);
+  height: auto;
+  z-index: 2;
+}
+
+.banner-placeholder__a1 {
+  position: absolute;
+  bottom: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  width: clamp(40px, 4.5vw, 64px);
+  height: auto;
+  z-index: 2;
+}
+
+.banner-placeholder__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  display: block;
+}
+
+/* ============================================================
+   TICKET MARQUEE
+   ============================================================ */
+
+.ticket-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  padding-top: clamp(0.75rem, 2vw, 1.5rem);
+  padding-bottom: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.ticket-marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ticket-marquee__item {
+  height: clamp(44px, 5.5vw, 76px);
+  width: auto;
+  aspect-ratio: 1.677;
+  flex: none;
+  display: block;
+  margin-right: -1px;
 }
 
 .story {
-  padding: clamp(2rem, 4vw, 4rem) var(--gutter) var(--section-gap);
+  padding: clamp(2rem, 4vw, 4rem) var(--gutter) clamp(1.5rem, 3vw, 3rem);
 }
 
 .story__inner {
@@ -583,8 +641,8 @@ a {
 
 .story__heading {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  line-height: 1;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  line-height: 1.1;
   letter-spacing: 0.01em;
   margin-bottom: 2rem;
 }
@@ -602,6 +660,103 @@ a {
 }
 
 /* ============================================================
+   JOIN OUR COMMUNITY
+   ============================================================ */
+
+.community {
+  padding: clamp(0.5rem, 1.5vw, 1.5rem) var(--gutter) var(--section-gap);
+  text-align: left;
+}
+
+.community__header {
+  max-width: var(--max-width);
+  margin: 0 auto clamp(2rem, 4vw, 3rem);
+}
+
+.community__header .label {
+  display: block;
+  margin: 1rem 0;
+}
+
+.community__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.community__grid {
+  max-width: var(--max-width);
+  margin: 0 auto clamp(2rem, 4vw, 3rem);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+}
+
+.community__item {
+  display: block;
+  position: relative;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.community__item-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity var(--speed) var(--ease);
+}
+
+.community__item-play svg {
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+  fill: #0d0d0d;
+}
+
+.community__item:hover .community__item-play {
+  opacity: 0;
+}
+
+.community__item img,
+.community__item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transition: transform var(--speed) var(--ease);
+}
+
+.community__item:hover img,
+.community__item:hover video {
+  transform: scale(1.05);
+}
+
+.community__cta {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .community__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================================
    PRODUCTS
    ============================================================ */
 
@@ -612,6 +767,10 @@ a {
 .products__header {
   margin: 0 0 3rem;
   text-align: left;
+}
+
+.products__header .label {
+  font-size: clamp(0.85rem, 1.3vw, 1.1rem);
 }
 
 .products__heading {
@@ -635,7 +794,7 @@ a {
 
 .editorial-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: clamp(1rem, 2.5vw, 2.5rem);
 }
 
@@ -676,6 +835,12 @@ a {
   padding: 2rem;
 }
 
+/* Utility: make a product photo fill its box edge-to-edge, no letterboxing */
+.img--fill {
+  object-fit: cover !important;
+  padding: 0 !important;
+}
+
 /* On hover / tap-active: fade lifestyle out → flatlay shows */
 .editorial-card:hover .editorial-card__img--life,
 .editorial-card.is-tapped .editorial-card__img--life {
@@ -689,9 +854,8 @@ a {
 
 .editorial-card__row {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.25rem;
   margin-bottom: 0.45rem;
 }
 
@@ -1005,6 +1169,9 @@ a {
 
 @media (max-width: 1024px) {
   .products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .editorial-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -295,7 +295,9 @@
 .pdp__sizeguide-img {
   width: 100%;
   display: block;
-  padding-bottom: 1.5rem;
+  background: #ffffff;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Add to Bag button */
